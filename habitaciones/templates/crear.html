@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar habitacion</title>
+    <!-- Incluye los estilos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <form enctype="multipart/form-data" action="" method="POST">
+        {% csrf_token %}
+        {% for campo in formulario %}
+            <div class="mb-3">
+                <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+                
+                {% if campo.name == 'estado' or campo.name == 'tipo' %}
+                    <select class="form-control" name="{{campo.name}}" id="{{ campo.id_for_label }}">
+                        {% for choice_value, choice_label in campo.field.widget.choices %}
+                            <option value="{{ choice_value }}" {% if choice_value == campo.value %}selected{% endif %}>{{ choice_label }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <input class="form-control" type="{{ campo.field.widget.input_type }}" name="{{campo.name}}" id="{{ campo.id_for_label }}" placeholder="{{campo.label}}" {% if campo.value %}value="{{ campo.value }}"{% endif %}>
+                {% endif %}
+                
+                <div class="col-12 help-text">{{ campo.errors }}</div>
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Enviar información" class="btn btn-success">
+    </form>
+</body>
+</html>
+

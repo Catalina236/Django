@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar habitacion</title>
+    <!-- Incluye los estilos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<body class="d-flex justify-content-center align-items-center" style="height: 110vh;">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Registrar habitación
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Datos de la habitación</h4>
+    <form enctype="multipart/form-data" action="" method="POST">
+        
+        {% csrf_token %}
+        {% for campo in formulario %}
+            <div class="mb-3">
+                <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+                <input class="form-control" type="{{ campo.field.widget.input_type }}" name="{{campo.name}}" id="" placeholder="{{campo.label}}" value="{{campo.value}}">
+                
+                {% if campo.field.widget.input_type == 'file' and campo.value %}
+                <br/>
+                <img src="{{MEDIA_URL}}/imagenes/{{campo.value}}" width="100" alt="" srcset="">
+                {% endif %}
+                <div class="col-12 help-text">{{ campo.errors }}</div>
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Enviar información" class="btn btn-success">
+    </form>
+</div>
+
+<!-- Incluye los scripts de Bootstrap (jQuery y Popper.js) -->
+
+</body>
+</html>
